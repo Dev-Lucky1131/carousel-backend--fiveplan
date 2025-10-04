@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 
 async function sendPlans(replyToken) {
   const message = {
-    replyToken: replyToken,
+    replyToken,
     messages: [
       {
         type: "flex",
@@ -38,28 +38,111 @@ async function sendPlans(replyToken) {
           contents: [
             {
               type: "bubble",
-              hero: { type: "image", url: "https://drive.google.com/file/d/1uci5o5J0uoVDKPVFZG5j_FD-yxIljU3k/view?usp=sharing", size: "full", aspectMode: "cover", aspectRatio: "20:13" },
+              hero: {
+                type: "image",
+                url: "https://drive.google.com/file/d/1uci5o5J0uoVDKPVFZG5j_FD-yxIljU3k/view?usp=sharing",  // 画像URL
+                size: "full",
+                aspectRatio: "20:13",
+                aspectMode: "cover"
+              },
               body: {
                 type: "box",
                 layout: "vertical",
                 contents: [
                   { type: "text", text: "プラン1", weight: "bold", size: "xl" },
-                  { type: "text", text: "プラン1の説明です", wrap: true, margin: "md" }
+                  { type: "text", text: "プラン1の説明です", wrap: true }
                 ]
               }
             },
+            {
+              type: "bubble",
+              hero: {
+                type: "image",
+                url: "https://drive.google.com/file/d/1uci5o5J0uoVDKPVFZG5j_FD-yxIljU3k/view?usp=sharing",
+                size: "full",
+                aspectRatio: "20:13",
+                aspectMode: "cover"
+              },
+              body: {
+                type: "box",
+                layout: "vertical",
+                contents: [
+                  { type: "text", text: "プラン2", weight: "bold", size: "xl" },
+                  { type: "text", text: "プラン2の説明です", wrap: true }
+                ]
+              }
+            },
+            {
+              type: "bubble",
+              hero: {
+                type: "image",
+                url: "https://drive.google.com/file/d/1uci5o5J0uoVDKPVFZG5j_FD-yxIljU3k/view?usp=sharing",
+                size: "full",
+                aspectRatio: "20:13",
+                aspectMode: "cover"
+              },
+              body: {
+                type: "box",
+                layout: "vertical",
+                contents: [
+                  { type: "text", text: "プラン3", weight: "bold", size: "xl" },
+                  { type: "text", text: "プラン3の説明です", wrap: true }
+                ]
+              }
+            },
+            {
+              type: "bubble",
+              hero: {
+                type: "image",
+                url: "https://drive.google.com/file/d/1uci5o5J0uoVDKPVFZG5j_FD-yxIljU3k/view?usp=sharing",
+                size: "full",
+                aspectRatio: "20:13",
+                aspectMode: "cover"
+              },
+              body: {
+                type: "box",
+                layout: "vertical",
+                contents: [
+                  { type: "text", text: "プラン4", weight: "bold", size: "xl" },
+                  { type: "text", text: "プラン4の説明です", wrap: true }
+                ]
+              }
+            },
+            {
+              type: "bubble",
+              hero: {
+                type: "image",
+                url: "https://drive.google.com/file/d/1uci5o5J0uoVDKPVFZG5j_FD-yxIljU3k/view?usp=sharing",
+                size: "full",
+                aspectRatio: "20:13",
+                aspectMode: "cover"
+              },
+              body: {
+                type: "box",
+                layout: "vertical",
+                contents: [
+                  { type: "text", text: "プラン5", weight: "bold", size: "xl" },
+                  { type: "text", text: "プラン5の説明です", wrap: true }
+                ]
+              }
+            }
           ]
         }
       }
     ]
   };
 
-  await axios.post('https://api.line.me/v2/bot/message/reply', message, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${CHANNEL_ACCESS_TOKEN}`
+  await axios.post(
+    "https://api.line.me/v2/bot/message/reply",
+    message,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${CHANNEL_ACCESS_TOKEN}`
+      }
     }
-  });
+  );
 }
+
 
 app.listen(3000, () => console.log('Server running on port 3000'));
