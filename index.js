@@ -9,24 +9,29 @@ const CHANNEL_ACCESS_TOKEN = 'kAItEvXs8PhCFooH3Pcx/FJ2wMVw/M8JYGpne9KmNE4TMlpdwQ
 
 
 app.post('/webhook', async (req, res) => {
-  console.log("Webhook received:", JSON.stringify(req.body, null, 2)); // 👈 log full event object
+  console.log("Webhook received:", JSON.stringify(req.body, null, 2)); // full event object
 
   const events = req.body.events || [];
 
   events.forEach(async (event) => {
-    console.log("Processing event:", event); // 👈 log each event
+    console.log("Processing event:", event.type);
 
+    // If user sent a text message
     if (event.type === 'message' && event.message.type === 'text') {
-      console.log("User sent text:", event.message.text); // 👈 log text
+      console.log("User sent text:", event.message.text);
 
       if (event.message.text === 'show_plans') {
+        console.log("✅ Triggering sendPlans function");
         await sendPlans(event.replyToken);
       }
+    } else if (event.type === 'postback') {
+      console.log("Postback event received:", event.postback.data);
     }
   });
 
   res.sendStatus(200);
 });
+
 
 
 
@@ -136,16 +141,18 @@ async function sendPlans(replyToken) {
     ]
   };
 
-  await axios.post(
-    "https://api.line.me/v2/bot/message/reply",
-    message,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${CHANNEL_ACCESS_TOKEN}`
-      }
+ try {
+  await axios.post("https://api.line.me/v2/bot/message/reply", message, {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${CHANNEL_ACCESS_TOKEN}`
     }
-  );
+  });
+  console.log("✅ Plans sent successfully");
+} catch (err) {
+  console.error("❌ Error sending plans:", err.response?.data || err.message);
+}
+
 }
 
 
