@@ -7,12 +7,18 @@ app.use(bodyParser.json());
 
 const CHANNEL_ACCESS_TOKEN = 'kAItEvXs8PhCFooH3Pcx/FJ2wMVw/M8JYGpne9KmNE4TMlpdwQSq2x1CPgGHEiD/By+baZs/i23G2NYG5IRg1NMP6X1eMbWUdRkjkILX2fSrADZY6rOUcYw7kpKqSX4/maS7I41d05gsZgaNwRPyTgdB04t89/1O/w1cDnyilFU=';
 
+
 app.post('/webhook', async (req, res) => {
-  const events = req.body.events;
+  console.log("Webhook received:", JSON.stringify(req.body, null, 2)); // 👈 log full event object
+
+  const events = req.body.events || [];
 
   events.forEach(async (event) => {
-    // Check if the message is text
+    console.log("Processing event:", event); // 👈 log each event
+
     if (event.type === 'message' && event.message.type === 'text') {
+      console.log("User sent text:", event.message.text); // 👈 log text
+
       if (event.message.text === 'show_plans') {
         await sendPlans(event.replyToken);
       }
@@ -22,9 +28,7 @@ app.post('/webhook', async (req, res) => {
   res.sendStatus(200);
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello, this is the LINE bot server.');
-});
+
 
 async function sendPlans(replyToken) {
   const message = {
